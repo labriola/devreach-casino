@@ -68,3 +68,32 @@ h1 span {
   height: 150px;
   margin: 0 10px 10px 0;
 }
+
+.blackjack {
+  padding: 16px; 
+  background-color: #00711e
+}
+
+.blackjack-controls {
+  display: flex;
+  padding: 25px;
+  justify-content: space-evenly;
+}
+
+.blackjack-status {
+  font-size: 36px;
+  display: flex;
+  justify-content: center;
+}
+
+.blackjack-button {
+  flex: 1;
+  margin: 4px;
+  padding: 4px;
+  font-size: 36px;
+}
+
+.blackjack .cards img {
+  height: 300px;
+  margin: 0 10px 10px 0;
+}

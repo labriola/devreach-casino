@@ -7,6 +7,8 @@ export const RESULT_DEALER_WIN = 'Dealer Win';
 export const RESULT_PLAYER_BUST = 'Player Bust';
 export const RESULT_DEALER_BUST = 'Dealer Bust';
 
+const MAX_SUM = 21;
+
 const toPossibleScores = (...values) => {
   return existingScores => existingScores.reduce((acc, score)=>{
     return [...acc, ...values.map(value=>score + value)];
@@ -43,13 +45,13 @@ export const totalOf = (hand) => {
 
   //find best outcome
   return possibleValues.reduce((best, value)=>{
-    return (best > 21 || (value > best && value <=21)) ? value : best;
+    return (best > MAX_SUM || (value > best && value <=MAX_SUM)) ? value : best;
   });
 };
 
-const toFinalStatus = (dealerTotal=0, playerTotal=0) => {
-  if (dealerTotal > 21) return RESULT_DEALER_BUST;
-  if (playerTotal > 21) return RESULT_PLAYER_BUST;
+const toFinalStatus = (playerTotal=0, dealerTotal=0) => {
+  if (dealerTotal > MAX_SUM) return RESULT_DEALER_BUST;
+  if (playerTotal > MAX_SUM) return RESULT_PLAYER_BUST;
   if (dealerTotal === playerTotal) return RESULT_PUSH;
 
   return playerTotal > dealerTotal
@@ -84,12 +86,13 @@ export const hitReducerFn = (s0={}) => {
 
   const [card, ...remainder] = deck;
   const newPlayerHand = [...playerHand, card];
+  const playerTotal = totalOf(newPlayerHand);
 
   return {
     ...s0,
     playerHand: newPlayerHand,
     deck: remainder,
-    status : totalOf(newPlayerHand) > 21 ? RESULT_PLAYER_BUST : existingStatus
+    status : playerTotal > MAX_SUM ? toFinalStatus(playerTotal) : existingStatus
   };
 };
 
@@ -114,7 +117,7 @@ export const standReducerFn = (s0={}) => {
 
   return {
     ...s0,
-    status : toFinalStatus(dealerTotal, totalOf(playerHand))
+    status : toFinalStatus(totalOf(playerHand), dealerTotal)
   };
 };
 

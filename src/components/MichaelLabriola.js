@@ -35,7 +35,7 @@ const Controls = props => {
 
 const Hand = ({ status, hand=[], isDealer = false }) => {
   return hand.map(({ path }, index) => {
-    if (!status && isDealer && index === 0) {
+    if (status === PLAYING && isDealer && index === 0) {
       return <img src={'/cards/back.png'} alt={path} key={path} />;
     }
     return <img src={`/cards/${path}`} alt={path} key={path} />;

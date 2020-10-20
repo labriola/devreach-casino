@@ -8,6 +8,7 @@ export const RESULT_PLAYER_BUST = 'Player Bust';
 export const RESULT_DEALER_BUST = 'Dealer Bust';
 
 const MAX_SUM = 21;
+const STAND_THRESHOLD = 17;
 
 const toPossibleScores = (...values) => {
   return existingScores => existingScores.reduce((acc, score)=>{
@@ -104,7 +105,7 @@ export const standReducerFn = (s0={}) => {
   } = s0;
 
   const dealerTotal = totalOf(dealerHand);
-  if (dealerTotal < 17) {
+  if (dealerTotal < STAND_THRESHOLD) {
     const [card, ...remainder] = deck;
     const newDealerHand = [...dealerHand, card];
 
